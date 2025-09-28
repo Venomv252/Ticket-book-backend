@@ -10,6 +10,13 @@ const ShowSchema = new mongoose.Schema({
   bookedSeats: [{ type: String }],
 
   transactions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Payment" }],
+  lockedSeats: [
+  {
+    seat: String,
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    lockedAt: Date
+  }
+],
 }, { timestamps: true });
 
 export default mongoose.model("Show", ShowSchema);
