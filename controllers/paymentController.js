@@ -70,6 +70,24 @@ export const Paymentwebhook = async(req,res) => {
         console.error("webhook error", error.message);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
+    // Handle successful payment
+  if (event.type === "payment_intent.succeeded") {
+    const paymentIntent = event.data.object;
+    const { showId, userId, seats } = paymentIntent.metadata;
+
+    await Payment.create({
+      user: userId,
+      show: showId,
+      amount: paymentIntent.amount / 100,
+      seats: JSON.parse(seats),
+      paymentId: paymentIntent.id,
+      status: "succeeded",
+    });
+
+    console.log("Payment succeeded and saved to DB!");
+  }
+
+  res.json({ received: true });
 
 
 };
