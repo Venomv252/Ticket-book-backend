@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const ShowSchema = new mongoose.Schema({
   event: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true },
   dateTime: { type: Date, required: true },
